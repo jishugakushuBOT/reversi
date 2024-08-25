@@ -3,7 +3,8 @@
     <div class="board">
       <div class="beside" v-for="(cell,columnIndex) in cells" :key="columnIndex">
         <div class="vertical" v-for="(disk,rowIndex) in cell" :key="disk.index" @click="placePieces(columnIndex,rowIndex)">
-          <div v-if="disk==0" class="disk none"></div>
+          <div v-if="disk==0 && turnAble[columnIndex][rowIndex]===1" class="disk yellow"></div>
+          <div v-if="disk==0 && turnAble[columnIndex][rowIndex]!==1" class="disk none"></div>
           <div v-if="disk==1" class="disk white"></div>
           <div v-if="disk==-1" class="disk black"></div>
         </div>
@@ -49,13 +50,27 @@ export default {
     }
   },
 
+  mounted() {
+    this.checkTurnable();
+    console.log("aaaaaaaaa")
+  },
+
   methods:{
     checkTurnable() {
+      this.turnAble=[
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+      ]
       for (let i = 0; i < this.cells.length; i++) {
-        console.log(i)
         for (let j = 0; j < this.cells[i].length; j++) {
           if (this.cells[i][j] === 0) {
-            for (let [dx, dy] of directions) {
+            for (let [dx, dy] of this.directions) {
               let x = i + dx;
               let y = j + dy;
               let hasOpponent = false;
@@ -104,13 +119,11 @@ export default {
         }
 
         this.player=-this.player
+        this.checkTurnable()
+        console.log("faefefe")
       }
     }
-  },
-
-  mounted() {
-    this.checkTurnable();
-  }
+  }  
 }
 </script>
 
@@ -128,9 +141,6 @@ export default {
   background-color: darkgreen;
   width: 410px;
   height:394px;
-  /* display:flex;
-  justify-content:center;
-  align-items:center; */
 
 }
 
@@ -165,6 +175,11 @@ export default {
   background-color: black;
 }
 
+.yellow{
+  background-color: yellow;
+  width:20%;
+  height:20%;
+}
 </style>
 
 
