@@ -171,6 +171,7 @@ export default {
       ]
       this.player=-1
       this.checkTurnable()
+      this.finishFlag=false
       
     }
   }
